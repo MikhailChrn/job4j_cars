@@ -24,7 +24,9 @@ public class HibernateUserRepository implements UserRepository {
         Session session = sessionFactory.openSession();
         try {
             session.beginTransaction();
-            session.save(user);
+            session.createQuery(
+                            "INSERT INTO User (id, login, password)")
+                    .executeUpdate();
             session.getTransaction().commit();
 
         } catch (Exception ex) {
@@ -57,6 +59,7 @@ public class HibernateUserRepository implements UserRepository {
                     .setParameter("id", user.getId())
                     .executeUpdate();
             session.getTransaction().commit();
+
         } catch (Exception ex) {
             session.getTransaction().rollback();
 
@@ -80,8 +83,12 @@ public class HibernateUserRepository implements UserRepository {
                     .setParameter("userId", userId)
                     .executeUpdate();
             session.getTransaction().commit();
+
         } catch (Exception e) {
             session.getTransaction().rollback();
+
+        } finally {
+            session.close();
         }
     }
 
@@ -93,12 +100,20 @@ public class HibernateUserRepository implements UserRepository {
     @Override
     public List<User> findAllOrderById() {
         Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        List<User> result = session.createQuery(
-                        "FROM User ORDER BY id", User.class)
-                .getResultList();
-        session.getTransaction().commit();
-        session.close();
+        List<User> result = null;
+        try {
+            session.beginTransaction();
+            result = session.createQuery(
+                            "FROM User ORDER BY id", User.class)
+                    .getResultList();
+            session.getTransaction().commit();
+
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+
+        } finally {
+            session.close();
+        }
 
         return result;
     }
@@ -111,12 +126,23 @@ public class HibernateUserRepository implements UserRepository {
     @Override
     public Optional<User> findById(int userId) {
         Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        User user = session.get(User.class, userId);
-        session.getTransaction().commit();
-        session.close();
+        Optional<User> result = Optional.empty();
+        try {
+            session.beginTransaction();
+            result = session.createQuery(
+                            "FROM User U WHERE U.id = :id")
+                    .setParameter("id", userId)
+                    .uniqueResultOptional();
+            session.getTransaction().commit();
 
-        return Optional.of(user);
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+
+        } finally {
+            session.close();
+        }
+
+        return result;
     }
 
     /**
@@ -128,13 +154,23 @@ public class HibernateUserRepository implements UserRepository {
     @Override
     public List<User> findByLikeLogin(String key) {
         Session session = sessionFactory.openSession();
-        List<User> list = session.createQuery(
-                "FROM User AS u WHERE u.login LIKE :key", User.class)
-                .setParameter("key", "%" + key + "%")
-                .getResultList();
-        session.close();
+        List<User> result = null;
+        try {
+            session.beginTransaction();
+            result = session.createQuery(
+                            "FROM User AS u WHERE u.login LIKE :key", User.class)
+                    .setParameter("key", "%" + key + "%")
+                    .getResultList();
+            session.getTransaction().commit();
 
-        return list;
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+
+        } finally {
+            session.close();
+        }
+
+        return result;
     }
 
     /**
@@ -146,11 +182,22 @@ public class HibernateUserRepository implements UserRepository {
     @Override
     public Optional<User> findByLogin(String login) {
         Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        User user = session.get(User.class, login);
-        session.getTransaction().commit();
-        session.close();
+        Optional<User> result = Optional.empty();
+        try {
+            session.beginTransaction();
+            result = session.createQuery(
+                            "FROM User U WHERE U.login = :login")
+                    .setParameter("login", login)
+                    .uniqueResultOptional();
+            session.getTransaction().commit();
 
-        return Optional.of(user);
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+
+        } finally {
+            session.close();
+        }
+
+        return result;
     }
 }
