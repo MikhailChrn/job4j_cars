@@ -1,4 +1,4 @@
-package ru.job4j.cars.model;
+package ru.job4j.cars.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -10,6 +10,8 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String login;
+
     private String password;
 }

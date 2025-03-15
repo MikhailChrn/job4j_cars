@@ -1,9 +1,8 @@
 package ru.job4j.cars.repository;
 
 import lombok.AllArgsConstructor;
-import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
-import ru.job4j.cars.model.User;
+import ru.job4j.cars.entity.User;
 
 import java.util.List;
 import java.util.Map;
