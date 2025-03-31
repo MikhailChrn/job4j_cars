@@ -1,43 +1,75 @@
 package ru.job4j.cars.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.time.ZoneId;
 import java.util.Collection;
-import java.util.List;
+import java.util.Objects;
 
-@Entity
-@Table(name = "auto_posts")
 @Data
-@ToString
+@Entity
+@Builder
+@Table(name = "posts")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Post {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    private String title;
+
     private String description;
 
-    private LocalDateTime created = LocalDateTime.now();
+    private LocalDateTime created = LocalDateTime.now(ZoneId.of("UTC"));
 
-    @Column(name = "auto_user_id")
+    /**
+     * Автора поста
+     */
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "post_id")
-    private Collection<PriceHistory> priceHistories = new ArrayList<>();
+    /**
+     * Автомобиля на продажу
+     */
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "car_id")
+    private Car car;
 
-    @ManyToMany
+    /**
+     * История цены
+     */
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER)
+    @JoinColumn(name = "post_id")
+    private Collection<PriceHistory> priceHistories;
+
+    /**
+     * Подписчики на объявление
+     */
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "participates",
-            joinColumns = { @JoinColumn(name = "post_id") },
-            inverseJoinColumns = { @JoinColumn(name = "user_id") }
+            name = "users_posts",
+            joinColumns = {@JoinColumn(name = "post_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")}
     )
-    private List<User> participates = new ArrayList<>();
+    private Collection<User> users;
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Post post = (Post) o;
+        return id == post.id && Objects.equals(title, post.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title);
+    }
 }

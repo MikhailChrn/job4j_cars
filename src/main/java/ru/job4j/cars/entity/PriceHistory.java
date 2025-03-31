@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Entity
 @Table(name = "price_history")
@@ -12,17 +13,23 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class PriceHistory {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private int id;
 
-    @NonNull
+    private LocalDateTime created = LocalDateTime.now(ZoneId.of("UTC"));
+
     private long before;
 
-    @NonNull
     private long after;
 
-    private LocalDateTime created = LocalDateTime.now();
+    /**
+     * Связь с объявлением
+     */
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
 
 }

@@ -7,18 +7,15 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = {"id"})
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "engines")
+public class Engine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String name;
-
-    private String login;
-
-    private String password;
+    private String title;
 
 }

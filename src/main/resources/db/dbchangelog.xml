@@ -6,10 +6,15 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <include file="scripts/001_ddl_create_autousers_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/002_ddl_create_autoposts_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/001_ddl_create_users_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/002_ddl_create_posts_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/003_dml_insert_into_autousers_table.sql" relativeToChangelogFile="true"/>
     <include file="scripts/004_ddl_create_pricehistory_table.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/005_ddl_create_participates_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/005_ddl_create_usersposts_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/006_ddl_create_engines_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/007_ddl_create_owners_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/008_ddl_create_cars_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/009_ddl_create_carsownershistory_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/010_ddl_alter_table_posts_add_carid_column.sql" relativeToChangelogFile="true"/>
 
 </databaseChangeLog>
