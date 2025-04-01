@@ -22,6 +22,13 @@ public class Car {
     private String title;
 
     /**
+     * Ссылка на марку автомобиля
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "car_brand_id")
+    private CarBrand carBrand;
+
+    /**
      * Ссылка на марку двигателя
      */
     @ManyToOne(fetch = FetchType.LAZY)

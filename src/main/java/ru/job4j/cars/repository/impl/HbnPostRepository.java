@@ -6,6 +6,7 @@ import ru.job4j.cars.entity.Post;
 import ru.job4j.cars.repository.CrudRepository;
 import ru.job4j.cars.repository.PostRepository;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
@@ -54,5 +55,46 @@ public class HbnPostRepository implements PostRepository {
                 "FROM Post p WHERE p.id = :fId", Post.class,
                 Map.of("fId", postId)
         );
+    }
+
+    @Override
+    public Collection<Post> findByCarBrand(int carBrandId) {
+        return crudRepository.query("""
+                FROM Post p
+                JOIN FETCH p.user
+                JOIN FETCH p.car
+                JOIN FETCH p.priceHistory
+                JOIN FETCH p.users
+                WHERE p.car.id IN
+                (SELECT c.id FROM Car c WHERE c.id = :fCarBrandId)
+                """,
+                Post.class, Map.of("fCarBrandId", carBrandId));
+    }
+
+    @Override
+    public Collection<Post> findWithPhoto() {
+        return crudRepository.query("""
+                FROM Post p
+                JOIN FETCH p.user
+                JOIN FETCH p.car
+                JOIN FETCH p.priceHistory
+                JOIN FETCH p.users
+                WHERE p.fileId > 0
+                """,
+                Post.class);
+    }
+
+    @Override
+    public Collection<Post> findByLastDay() {
+        LocalDateTime today = LocalDateTime.now();
+        return crudRepository.query("""
+                FROM Post p
+                JOIN FETCH p.user
+                JOIN FETCH p.car
+                JOIN FETCH p.priceHistory
+                JOIN FETCH p.users
+                WHERE p.created > :fDate
+                """,
+                Post.class, Map.of("fDate", today.minusDays(1)));
     }
 }

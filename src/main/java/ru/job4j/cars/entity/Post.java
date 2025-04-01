@@ -58,4 +58,10 @@ public class Post {
             inverseJoinColumns = {@JoinColumn(name = "user_id")}
     )
     private Set<User> users = new HashSet<>();
+
+    /**
+     * Прикреплённый к объявлению файл
+     * [ОТСУТСВУЕТ В ТЕКУЩЕЙ СБОРКЕ]
+     */
+
 }

@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class CarOwnerHistory {
+public class CarOwnersHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
