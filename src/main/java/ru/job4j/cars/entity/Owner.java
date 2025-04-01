@@ -3,7 +3,8 @@ package ru.job4j.cars.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Builder
@@ -29,6 +30,6 @@ public class Owner {
             joinColumns = {@JoinColumn(name = "owner_id")},
             inverseJoinColumns = {@JoinColumn(name = "car_id")}
     )
-    private Collection<Car> cars;
+    private Set<Car> cars = new HashSet<>();
 
 }

@@ -3,7 +3,8 @@ package ru.job4j.cars.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -36,6 +37,6 @@ public class Car {
             joinColumns = {@JoinColumn(name = "car_id")},
             inverseJoinColumns = {@JoinColumn(name = "owner_id")}
     )
-    private Collection<Owner> owners;
+    private List<Owner> owners = new ArrayList<>();
 
 }
