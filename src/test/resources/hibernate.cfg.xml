@@ -13,9 +13,10 @@
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.dialect">org.hibernate.dialect.H2Dialect</property>
 
+        <mapping class="ru.job4j.cars.entity.BodyType" />
         <mapping class="ru.job4j.cars.entity.Car" />
         <mapping class="ru.job4j.cars.entity.CarBrand" />
-        <mapping class="ru.job4j.cars.entity.CarOwnersHistory" />
+        <mapping class="ru.job4j.cars.entity.CarOwnerHistory" />
         <mapping class="ru.job4j.cars.entity.Engine" />
         <mapping class="ru.job4j.cars.entity.Owner" />
         <mapping class="ru.job4j.cars.entity.Post" />

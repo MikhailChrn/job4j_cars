@@ -3,13 +3,13 @@ package ru.job4j.cars.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+@Entity
+@Table(name = "engines")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = {"id"})
-@Entity
-@Table(name = "engines")
 public class Engine {
 
     @Id

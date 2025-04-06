@@ -5,7 +5,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import ru.job4j.cars.configuration.HibernateConfiguration;
-import ru.job4j.cars.entity.Owner;
+import ru.job4j.cars.entity.BodyType;
 import ru.job4j.cars.repository.CrudRepository;
 import ru.job4j.cars.repository.RegularRepository;
 
@@ -15,50 +15,50 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-class HbnOwnerRepositoryTest {
+class HbnBodyTypeRepositoryTest {
 
-    private static RegularRepository<Owner> ownerRepository;
+    private static RegularRepository<BodyType> bodyTypeRepository;
 
     @BeforeAll
     public static void initRepositories() {
         SessionFactory sessionFactory = new HibernateConfiguration().sessionFactory();
         CrudRepository crudRepository = new CrudRepository(sessionFactory);
-        ownerRepository = new HbnOwnerRepository(crudRepository);
+        bodyTypeRepository = new HbnBodyTypeRepository(crudRepository);
     }
 
     @AfterEach
     public void clearRepositories() {
-        ownerRepository.findAll().forEach(
-                owner -> ownerRepository.deleteById(owner.getId())
+        bodyTypeRepository.findAll().forEach(
+                bodyType -> bodyTypeRepository.deleteById(bodyType.getId())
         );
     }
 
     @Test
     public void whenDeleteByInvalidIdThenGetFalse() {
-        assertThat(ownerRepository.deleteById(99))
+        assertThat(bodyTypeRepository.deleteById(99))
                 .isFalse();
     }
 
     @Test
     public void whenDontSaveThenNothingFoundAndGetFalse() {
-        assertThat(ownerRepository.deleteById(0)).isFalse();
+        assertThat(bodyTypeRepository.deleteById(0)).isFalse();
     }
 
     @Test
     public void whenSaveSeveralThenGetAllEntities() {
-        Owner owner1 = Owner.builder().name("name 1")
+        BodyType bodyType1 = BodyType.builder().title("title 1")
                 .build();
-        Owner owner2 = Owner.builder().name("name 2")
+        BodyType bodyType2 = BodyType.builder().title("title 2")
                 .build();
-        Owner owner3 = Owner.builder().name("name 3")
+        BodyType carBrand3 = BodyType.builder().title("title 3")
                 .build();
 
-        List.of(owner3, owner2, owner1)
-                .forEach(owner -> ownerRepository.save(owner));
+        List.of(carBrand3, bodyType2, bodyType1)
+                .forEach(carBrand -> bodyTypeRepository.save(carBrand));
 
-        Collection<Owner> expected = List.of(owner1, owner2, owner3);
+        Collection<BodyType> expected = List.of(bodyType1, bodyType2, carBrand3);
 
-        Collection<Owner> ownerRepositoryResponse = ownerRepository.findAll();
+        Collection<BodyType> ownerRepositoryResponse = bodyTypeRepository.findAll();
 
         assertTrue(expected.size() == ownerRepositoryResponse.size());
         assertTrue(expected.containsAll(ownerRepositoryResponse));
@@ -66,18 +66,19 @@ class HbnOwnerRepositoryTest {
 
     @Test
     public void whenUpdateThenGetRefreshEntity() {
-        Owner beforeUpdate = ownerRepository.save(
-                Owner.builder().name("name before")
+        BodyType beforeUpdate = bodyTypeRepository.save(
+                BodyType.builder().title("title before")
                         .build()).get();
 
-        Owner afterUpdate = Owner.builder()
+        BodyType afterUpdate = BodyType.builder()
                 .id(beforeUpdate.getId())
-                .name("name after")
+                .title("title after")
                 .build();
 
-        ownerRepository.update(afterUpdate);
+        bodyTypeRepository.update(afterUpdate);
 
-        assertThat(ownerRepository.findById(beforeUpdate.getId()).get())
+        assertThat(bodyTypeRepository.findById(beforeUpdate.getId()).get())
                 .isEqualTo(afterUpdate);
     }
+
 }

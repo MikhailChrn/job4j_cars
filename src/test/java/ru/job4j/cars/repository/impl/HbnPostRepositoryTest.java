@@ -8,8 +8,7 @@ import ru.job4j.cars.configuration.HibernateConfiguration;
 import ru.job4j.cars.entity.Post;
 import ru.job4j.cars.entity.User;
 import ru.job4j.cars.repository.CrudRepository;
-import ru.job4j.cars.repository.PostRepository;
-import ru.job4j.cars.repository.UserRepository;
+import ru.job4j.cars.repository.RegularRepository;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -21,9 +20,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HbnPostRepositoryTest {
 
-    private static UserRepository userRepository;
+    private static RegularRepository<User> userRepository;
 
-    private static PostRepository postRepository;
+    private static RegularRepository<Post> postRepository;
 
     @BeforeAll
     public static void initRepositories() {
@@ -34,7 +33,7 @@ class HbnPostRepositoryTest {
     }
 
     @AfterEach
-    public void clearTasks() {
+    public void clearRepositories() {
         postRepository.findAll().forEach(
                 post -> postRepository.deleteById(post.getId())
         );
@@ -55,7 +54,7 @@ class HbnPostRepositoryTest {
     }
 
     @Test
-    public void whenSaveSeveralThenGetAll() {
+    public void whenSaveSeveralThenGetAllEntities() {
         User user = userRepository.save(User.builder()
                 .name("test name")
                 .login("test login")

@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.entity.User;
 import ru.job4j.cars.repository.CrudRepository;
-import ru.job4j.cars.repository.UserRepository;
+import ru.job4j.cars.repository.RegularRepository;
 
 import java.util.Collection;
 import java.util.Map;
@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Repository
-public class HbnUserRepository implements UserRepository {
+public class HbnUserRepository implements RegularRepository<User> {
 
     private final CrudRepository crudRepository;
 

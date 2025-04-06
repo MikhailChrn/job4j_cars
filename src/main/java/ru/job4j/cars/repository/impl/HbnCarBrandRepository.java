@@ -3,8 +3,8 @@ package ru.job4j.cars.repository.impl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.entity.CarBrand;
-import ru.job4j.cars.repository.CarBrandRepository;
 import ru.job4j.cars.repository.CrudRepository;
+import ru.job4j.cars.repository.RegularRepository;
 
 import java.util.Collection;
 import java.util.Map;
@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Repository
-public class HbnCarBrandRepository implements CarBrandRepository {
+public class HbnCarBrandRepository implements RegularRepository<CarBrand> {
 
     private final CrudRepository crudRepository;
 
@@ -36,10 +36,10 @@ public class HbnCarBrandRepository implements CarBrandRepository {
     }
 
     @Override
-    public boolean deleteById(int carBrandId) {
+    public boolean deleteById(int id) {
         return crudRepository.tx(session ->
                 session.createQuery("DELETE CarBrand c WHERE c.id = :fId")
-                        .setParameter("fId", carBrandId)
+                        .setParameter("fId", id)
                         .executeUpdate()) > 0;
     }
 
@@ -49,10 +49,10 @@ public class HbnCarBrandRepository implements CarBrandRepository {
     }
 
     @Override
-    public Optional<CarBrand> findById(int carBrandId) {
+    public Optional<CarBrand> findById(int id) {
         return crudRepository.optional(
                 "FROM CarBrand c WHERE c.id = :fId", CarBrand.class,
-                Map.of("fId", carBrandId)
+                Map.of("fId", id)
         );
     }
 }

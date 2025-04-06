@@ -3,19 +3,20 @@ package ru.job4j.cars.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
-@Table(name = "owners")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = {"id"})
-public class Owner {
+@Entity
+@Table(name = "body_types")
+public class BodyType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String name;
+    private String title;
 
 }
+

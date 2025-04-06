@@ -6,8 +6,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import ru.job4j.cars.configuration.HibernateConfiguration;
 import ru.job4j.cars.entity.CarBrand;
-import ru.job4j.cars.repository.CarBrandRepository;
 import ru.job4j.cars.repository.CrudRepository;
+import ru.job4j.cars.repository.RegularRepository;
 
 import java.util.Collection;
 import java.util.List;
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class HbnCarBrandRepositoryTest {
 
-    private static CarBrandRepository carBrandRepository;
+    private static RegularRepository<CarBrand> carBrandRepository;
 
     @BeforeAll
     public static void initRepositories() {
@@ -27,7 +27,7 @@ class HbnCarBrandRepositoryTest {
     }
 
     @AfterEach
-    public void clearTasks() {
+    public void clearRepositories() {
         carBrandRepository.findAll().forEach(
                 carBrand -> carBrandRepository.deleteById(carBrand.getId())
         );
@@ -45,23 +45,39 @@ class HbnCarBrandRepositoryTest {
     }
 
     @Test
-    public void whenSaveSeveralThenGetAll() {
+    public void whenSaveSeveralThenGetAllEntities() {
         CarBrand carBrand1 = CarBrand.builder().title("title 1")
                 .build();
         CarBrand carBrand2 = CarBrand.builder().title("title 2")
                 .build();
-        CarBrand carBran3 = CarBrand.builder().title("title 3")
+        CarBrand carBrand3 = CarBrand.builder().title("title 3")
                 .build();
 
-        List.of(carBran3, carBrand2, carBrand1)
+        List.of(carBrand3, carBrand2, carBrand1)
                 .forEach(carBrand -> carBrandRepository.save(carBrand));
 
-        Collection<CarBrand> expected = List.of(carBrand1, carBrand2, carBran3);
+        Collection<CarBrand> expected = List.of(carBrand1, carBrand2, carBrand3);
 
-        Collection<CarBrand> engineRepositoryResponse = carBrandRepository.findAll();
+        Collection<CarBrand> ownerRepositoryResponse = carBrandRepository.findAll();
 
-        assertTrue(expected.size() == engineRepositoryResponse.size());
-        assertTrue(expected.containsAll(engineRepositoryResponse));
+        assertTrue(expected.size() == ownerRepositoryResponse.size());
+        assertTrue(expected.containsAll(ownerRepositoryResponse));
     }
 
+    @Test
+    public void whenUpdateThenGetRefreshEntity() {
+        CarBrand beforeUpdate = carBrandRepository.save(
+                CarBrand.builder().title("title before")
+                        .build()).get();
+
+        CarBrand afterUpdate = CarBrand.builder()
+                .id(beforeUpdate.getId())
+                .title("title after")
+                .build();
+
+        carBrandRepository.update(afterUpdate);
+
+        assertThat(carBrandRepository.findById(beforeUpdate.getId()).get())
+                .isEqualTo(afterUpdate);
+    }
 }

@@ -2,8 +2,7 @@ package ru.job4j.cars.repository.impl;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
-import ru.job4j.cars.entity.Engine;
-
+import ru.job4j.cars.entity.BodyType;
 import ru.job4j.cars.repository.CrudRepository;
 import ru.job4j.cars.repository.RegularRepository;
 
@@ -13,15 +12,15 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Repository
-public class HbnEngineRepository implements RegularRepository<Engine> {
+public class HbnBodyTypeRepository implements RegularRepository<BodyType> {
 
     private final CrudRepository crudRepository;
 
     @Override
-    public Optional<Engine> save(Engine engine) {
+    public Optional<BodyType> save(BodyType bodyType) {
         try {
-            crudRepository.run(session -> session.persist(engine));
-            return Optional.of(engine);
+            crudRepository.run(session -> session.persist(bodyType));
+            return Optional.of(bodyType);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -31,28 +30,28 @@ public class HbnEngineRepository implements RegularRepository<Engine> {
     }
 
     @Override
-    public boolean update(Engine engine) {
+    public boolean update(BodyType bodyType) {
         return crudRepository.tx(
-                session -> session.merge(engine)).equals(engine);
+                session -> session.merge(bodyType)).equals(bodyType);
     }
 
     @Override
     public boolean deleteById(int id) {
         return crudRepository.tx(session ->
-                session.createQuery("DELETE Engine e WHERE e.id = :fId")
+                session.createQuery("DELETE BodyType b WHERE b.id = :fId")
                         .setParameter("fId", id)
                         .executeUpdate()) > 0;
     }
 
     @Override
-    public Collection<Engine> findAll() {
-        return crudRepository.query("FROM Engine", Engine.class);
+    public Collection<BodyType> findAll() {
+        return crudRepository.query("FROM BodyType", BodyType.class);
     }
 
     @Override
-    public Optional<Engine> findById(int id) {
+    public Optional<BodyType> findById(int id) {
         return crudRepository.optional(
-                "FROM Engine e WHERE e.id = :fId", Engine.class,
+                "FROM BodyType b WHERE b.id = :fId", BodyType.class,
                 Map.of("fId", id)
         );
     }

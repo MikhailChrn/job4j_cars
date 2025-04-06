@@ -3,8 +3,8 @@ package ru.job4j.cars.repository.impl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.entity.Car;
-import ru.job4j.cars.repository.CarRepository;
 import ru.job4j.cars.repository.CrudRepository;
+import ru.job4j.cars.repository.RegularRepository;
 
 import java.util.Collection;
 import java.util.Map;
@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Repository
-public class HbnCarRepository implements CarRepository {
+public class HbnCarRepository implements RegularRepository<Car> {
 
     private final CrudRepository crudRepository;
 
@@ -45,13 +45,24 @@ public class HbnCarRepository implements CarRepository {
 
     @Override
     public Collection<Car> findAll() {
-        return crudRepository.query("FROM Car", Car.class);
+        return crudRepository.query("""
+                        FROM Car c
+                        """,
+                Car.class);
     }
 
     @Override
     public Optional<Car> findById(int carId) {
         return crudRepository.optional(
-                "FROM Car c WHERE c.id = :fId", Car.class,
+                """
+                        FROM Car c
+                        LEFT JOIN FETCH c.carBrand
+                        LEFT JOIN FETCH c.bodyType
+                        LEFT JOIN FETCH c.engine
+                        LEFT JOIN FETCH c.carOwnerHistories
+                        WHERE c.id = :fId
+                        """,
+                Car.class,
                 Map.of("fId", carId)
         );
     }

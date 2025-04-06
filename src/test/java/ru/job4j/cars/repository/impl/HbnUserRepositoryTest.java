@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import ru.job4j.cars.configuration.HibernateConfiguration;
 import ru.job4j.cars.entity.User;
 import ru.job4j.cars.repository.CrudRepository;
-import ru.job4j.cars.repository.UserRepository;
+import ru.job4j.cars.repository.RegularRepository;
 
 import java.util.Collection;
 import java.util.List;
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class HbnUserRepositoryTest {
 
-    private static UserRepository userRepository;
+    private static RegularRepository<User> userRepository;
 
     @BeforeAll
     public static void initRepositories() {
@@ -27,7 +27,7 @@ class HbnUserRepositoryTest {
     }
 
     @AfterEach
-    public void clearTasks() {
+    public void clearRepositories() {
         userRepository.findAll().forEach(
                 user -> userRepository.deleteById(user.getId())
         );
@@ -45,7 +45,7 @@ class HbnUserRepositoryTest {
     }
 
     @Test
-    public void whenSaveSeveralThenGetAll() {
+    public void whenSaveSeveralThenGetAllEntities() {
         User user1 = User.builder().name("name 1")
                 .login("login 1")
                 .password("password 1").build();
@@ -65,5 +65,24 @@ class HbnUserRepositoryTest {
 
         assertTrue(expected.size() == userRepositoryResponse.size());
         assertTrue(expected.containsAll(userRepositoryResponse));
+    }
+
+    @Test
+    public void whenUpdateThenGetRefreshEntity() {
+        User beforeUpdate = userRepository.save(
+                User.builder().name("name before")
+                .login("login before")
+                .password("password").build()).get();
+
+        User afterUpdate = User.builder()
+                .id(beforeUpdate.getId())
+                .name("name after")
+                .login("login after")
+                .password("password").build();
+
+        userRepository.update(afterUpdate);
+
+        assertThat(userRepository.findById(beforeUpdate.getId()).get())
+                .isEqualTo(afterUpdate);
     }
 }
