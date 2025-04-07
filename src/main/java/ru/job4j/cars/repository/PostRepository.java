@@ -1,6 +1,6 @@
 package ru.job4j.cars.repository;
 
-import ru.job4j.cars.entity.Post;
+import ru.job4j.cars.entity.post.Post;
 
 import java.util.Collection;
 

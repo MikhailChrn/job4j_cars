@@ -1,16 +1,16 @@
-package ru.job4j.cars.entity;
+package ru.job4j.cars.entity.carcomponents;
 
 import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
-@Table(name = "files")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = {"id"})
-public class File {
+@Entity
+@Table(name = "body_types")
+public class BodyType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,10 +18,5 @@ public class File {
 
     private String title;
 
-    private String path;
-
-    public File(String title, String path) {
-        this.title = title;
-        this.path = path;
-    }
 }
+

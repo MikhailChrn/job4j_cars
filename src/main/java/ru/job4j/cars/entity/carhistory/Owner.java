@@ -1,27 +1,21 @@
-package ru.job4j.cars.entity;
+package ru.job4j.cars.entity.carhistory;
 
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "files")
+@Table(name = "owners")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = {"id"})
-public class File {
+public class Owner {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String title;
+    private String name;
 
-    private String path;
-
-    public File(String title, String path) {
-        this.title = title;
-        this.path = path;
-    }
 }
