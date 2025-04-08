@@ -1,4 +1,4 @@
-package ru.job4j.cars.entity;
+package ru.job4j.cars.entity.post;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,6 +19,13 @@ public class File {
     private String title;
 
     private String path;
+
+    /**
+     * Ссылка на объявление
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
+    private Post post;
 
     public File(String title, String path) {
         this.title = title;

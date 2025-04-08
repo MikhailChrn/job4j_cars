@@ -2,7 +2,6 @@ package ru.job4j.cars.entity.post;
 
 import jakarta.persistence.*;
 import lombok.*;
-import ru.job4j.cars.entity.File;
 import ru.job4j.cars.entity.User;
 import ru.job4j.cars.entity.carcomponents.Car;
 
@@ -64,11 +63,22 @@ public class Post {
     }
 
     /**
-     * Файл с фотографией автомобиля
+     * Файлы с фотографиями автомобиля
      */
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "file_id")
-    private File file;
+    @OneToMany(mappedBy = "post",
+            cascade = CascadeType.ALL,
+            fetch = FetchType.EAGER)
+    private Set<File> files = new HashSet<>();
+
+    public void addFile(File file) {
+        file.setPost(this);
+        this.files.add(file);
+    }
+
+    public void removeFile(File file) {
+        file.setPost(null);
+        this.files.remove(file);
+    }
 
     public Post(String title, User user) {
         this.title = title;

@@ -21,7 +21,7 @@
         <mapping class="ru.job4j.cars.entity.carhistory.Owner" />
         <mapping class="ru.job4j.cars.entity.post.Post" />
         <mapping class="ru.job4j.cars.entity.post.PriceHistory" />
-        <mapping class="ru.job4j.cars.entity.File" />
+        <mapping class="ru.job4j.cars.entity.post.File" />
         <mapping class="ru.job4j.cars.entity.User" />
 
     </session-factory>

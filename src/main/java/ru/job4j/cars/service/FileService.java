@@ -2,7 +2,7 @@ package ru.job4j.cars.service;
 
 import org.springframework.stereotype.Service;
 import ru.job4j.cars.dto.FileDto;
-import ru.job4j.cars.entity.File;
+import ru.job4j.cars.entity.post.File;
 
 import java.util.Optional;
 

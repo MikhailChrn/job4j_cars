@@ -45,7 +45,7 @@ public class HbnOneToManyPriceHistoryRepositoryTest {
                 post -> postRepository.deleteById(post.getId())
         );
         userRepository.findAll().forEach(
-                post -> userRepository.deleteById(post.getId())
+                user -> userRepository.deleteById(user.getId())
         );
     }
 

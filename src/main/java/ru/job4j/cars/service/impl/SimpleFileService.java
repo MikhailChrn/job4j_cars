@@ -4,8 +4,8 @@ package ru.job4j.cars.service.impl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.job4j.cars.dto.FileDto;
-import ru.job4j.cars.entity.File;
-import ru.job4j.cars.repository.FileRepository;
+import ru.job4j.cars.entity.post.File;
+import ru.job4j.cars.repository.RegularRepository;
 import ru.job4j.cars.service.FileService;
 
 import java.io.IOException;
@@ -17,11 +17,11 @@ import java.util.UUID;
 @Service
 public class SimpleFileService implements FileService {
 
-    private final FileRepository fileRepository;
+    private final RegularRepository<File> fileRepository;
 
     private final String storageDirectory;
 
-    public SimpleFileService(FileRepository fileRepository,
+    public SimpleFileService(RegularRepository<File> fileRepository,
                              @Value("${file.directory}") String storageDirectory) {
         this.fileRepository = fileRepository;
         this.storageDirectory = storageDirectory;

@@ -1,9 +1,10 @@
 package ru.job4j.cars.dto;
 
 import lombok.*;
+import ru.job4j.cars.entity.post.File;
 
 /**
- * DTO for {@link ru.job4j.cars.entity.File}
+ * DTO for {@link File}
  */
 @Data
 @Builder
