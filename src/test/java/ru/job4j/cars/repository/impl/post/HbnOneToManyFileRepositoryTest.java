@@ -12,8 +12,6 @@ import ru.job4j.cars.repository.CrudRepository;
 import ru.job4j.cars.repository.RegularRepository;
 import ru.job4j.cars.repository.impl.HbnUserRepository;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Collection;
 import java.util.List;
 
@@ -51,8 +49,6 @@ public class HbnOneToManyFileRepositoryTest {
 
     @Test
     public void whenCreateCarWithOwnersListThenGetCorrectRepositoryResponse() {
-        LocalDateTime now = LocalDateTime.now(ZoneId.of("UTC"));
-
         User user = userRepository.save(User.builder()
                 .login("login").password("password").build()).get();
 

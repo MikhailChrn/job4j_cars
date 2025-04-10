@@ -14,6 +14,7 @@ import java.util.*;
 @Data
 @Builder
 @EqualsAndHashCode(of = {"id", "title"})
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class Post {
@@ -40,7 +41,7 @@ public class Post {
     /**
      * Автомобиль на продажу в данном объявлении
      */
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_id")
     private Car car;
 
@@ -67,7 +68,7 @@ public class Post {
      */
     @OneToMany(mappedBy = "post",
             cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER)
+            fetch = FetchType.LAZY)
     private Set<File> files = new HashSet<>();
 
     public void addFile(File file) {
@@ -83,5 +84,11 @@ public class Post {
     public Post(String title, User user) {
         this.title = title;
         this.user = user;
+    }
+
+    public Post(String title, User user, Car car) {
+        this.title = title;
+        this.user = user;
+        this.car = car;
     }
 }

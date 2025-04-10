@@ -46,13 +46,29 @@ public class HbnPostRepository implements PostRepository {
 
     @Override
     public Collection<Post> findAll() {
-        return crudRepository.query("FROM Post", Post.class);
+        return crudRepository.query("""
+                        FROM Post p
+                        LEFT JOIN FETCH p.car
+                        LEFT JOIN FETCH p.files
+                        """,
+                Post.class);
     }
+
+    /**
+     * После использования JOIN FETCH запрос не вернет нам объекты Post,
+     * у которых нет связанных с ними объектов в таблице files. Именно так работает inner join.
+     * Поэтому нам нужно дополнить наш join оператором left и превратить его в left join.
+     */
 
     @Override
     public Optional<Post> findById(int postId) {
-        return crudRepository.optional(
-                "FROM Post p WHERE p.id = :fId", Post.class,
+        return crudRepository.optional("""
+                        FROM Post p
+                        LEFT JOIN FETCH p.car
+                        LEFT JOIN FETCH p.files
+                        WHERE p.id = :fId
+                        """,
+                Post.class,
                 Map.of("fId", postId)
         );
     }
@@ -60,27 +76,31 @@ public class HbnPostRepository implements PostRepository {
     @Override
     public Collection<Post> findByCarBrand(int carBrandId) {
         return crudRepository.query("""
-                FROM Post p
-                JOIN FETCH p.user
-                JOIN FETCH p.car
-                JOIN FETCH p.priceHistory
-                JOIN FETCH p.users
-                WHERE p.car.id IN
-                (SELECT c.id FROM Car c WHERE c.id = :fCarBrandId)
-                """,
+                        FROM Post p
+                        LEFT JOIN FETCH p.car
+                        LEFT JOIN FETCH p.files
+                        WHERE p.car.id IN
+                            (SELECT c.id FROM Car c
+                            WHERE c.carBrand.id = :fCarBrandId)
+                        """,
                 Post.class, Map.of("fCarBrandId", carBrandId));
     }
+
+    /**
+     *  Вы можете проверить размер коллекции специальным свойством size
+     *  или специальной функцией size().
+     *  from Cat cat where cat.kittens.size > 0
+     *  from Cat cat where size(cat.kittens) > 0
+     */
 
     @Override
     public Collection<Post> findWithPhoto() {
         return crudRepository.query("""
-                FROM Post p
-                JOIN FETCH p.user
-                JOIN FETCH p.car
-                JOIN FETCH p.priceHistory
-                JOIN FETCH p.users
-                WHERE p.fileId > 0
-                """,
+                        FROM Post p
+                        LEFT JOIN FETCH p.car
+                        LEFT JOIN FETCH p.files
+                        WHERE SIZE(p.files) > 0
+                        """,
                 Post.class);
     }
 
@@ -88,13 +108,12 @@ public class HbnPostRepository implements PostRepository {
     public Collection<Post> findByLastDay() {
         LocalDateTime today = LocalDateTime.now();
         return crudRepository.query("""
-                FROM Post p
-                JOIN FETCH p.user
-                JOIN FETCH p.car
-                JOIN FETCH p.priceHistory
-                JOIN FETCH p.users
-                WHERE p.created > :fDate
-                """,
-                Post.class, Map.of("fDate", today.minusDays(1)));
+                        FROM Post p
+                        LEFT JOIN FETCH p.car
+                        LEFT JOIN FETCH p.files
+                        WHERE p.created > :fDate
+                        """,
+                Post.class,
+                Map.of("fDate", today.minusDays(1)));
     }
 }

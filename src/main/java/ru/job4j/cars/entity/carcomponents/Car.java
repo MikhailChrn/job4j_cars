@@ -13,6 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @EqualsAndHashCode(of = {"id", "title"})
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class Car {
@@ -26,7 +27,7 @@ public class Car {
     /**
      * Ссылка на марку автомобиля
      */
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "car_brand_id")
     private CarBrand carBrand;
 

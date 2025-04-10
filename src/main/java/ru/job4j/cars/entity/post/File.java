@@ -5,10 +5,12 @@ import lombok.*;
 
 @Entity
 @Table(name = "files")
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @EqualsAndHashCode(of = {"id"})
 public class File {
 
