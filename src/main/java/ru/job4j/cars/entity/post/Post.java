@@ -34,7 +34,7 @@ public class Post {
     /**
      * Автор данного объявления
      */
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -50,7 +50,7 @@ public class Post {
      */
     @OneToMany(mappedBy = "post",
             cascade = CascadeType.ALL,
-            fetch = FetchType.EAGER)
+            fetch = FetchType.LAZY)
     private List<PriceHistory> priceHistories = new ArrayList<>();
 
     public void addPriceHistory(PriceHistory priceHistory) {

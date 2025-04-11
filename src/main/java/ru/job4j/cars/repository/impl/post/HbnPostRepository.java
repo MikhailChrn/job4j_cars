@@ -66,6 +66,7 @@ public class HbnPostRepository implements PostRepository {
                         FROM Post p
                         LEFT JOIN FETCH p.car
                         LEFT JOIN FETCH p.files
+                        LEFT JOIN FETCH p.priceHistories
                         WHERE p.id = :fId
                         """,
                 Post.class,
