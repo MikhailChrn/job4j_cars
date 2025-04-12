@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <include file="scripts/000_ddl_create_files_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/001_ddl_create_users_table.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/002_ddl_create_car_components_tables.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/003_ddl_create_carsownershistory_tables.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/004_ddl_create_posts_table.sql" relativeToChangelogFile="true"/>
+
+    <include file="scripts/dml/000_dml_create_files.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/dml/001_dml_create_users.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/dml/002_dml_insert_car_components.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/dml/003_dml_insert_carownerhistory.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/dml/004_dml_insert_posts.sql" relativeToChangelogFile="true"/>
+
+</databaseChangeLog>
