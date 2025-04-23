@@ -152,7 +152,7 @@ public class HbnFilterCasesPostRepositoryTest {
 
         Collection<Post> expList = List.of(post5, post3, post1);
 
-        assertThat(postRepository.findByLastDay().size()).isEqualTo(3);
-        assertThat(postRepository.findByLastDay().containsAll(expList));
+        assertThat(postRepository.findByLastWeek().size()).isEqualTo(3);
+        assertThat(postRepository.findByLastWeek().containsAll(expList));
     }
 }

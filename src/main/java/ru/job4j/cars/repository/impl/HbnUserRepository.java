@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import ru.job4j.cars.entity.User;
 import ru.job4j.cars.repository.CrudRepository;
 import ru.job4j.cars.repository.RegularRepository;
+import ru.job4j.cars.repository.UserRepository;
 
 import java.util.Collection;
 import java.util.Map;
@@ -12,7 +13,7 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Repository
-public class HbnUserRepository implements RegularRepository<User> {
+public class HbnUserRepository implements UserRepository {
 
     private final CrudRepository crudRepository;
 
@@ -54,5 +55,21 @@ public class HbnUserRepository implements RegularRepository<User> {
                 "FROM User u WHERE u.id = :fId", User.class,
                 Map.of("fId", userId)
         );
+    }
+
+    /**
+     * Найти пользователя по login и password
+     *
+     * @param login password
+     * @return Optional пользователь
+     */
+    @Override
+    public Optional<User> findByLoginAndPassword(String login,
+                                                 String password) {
+        return crudRepository.query(
+                "FROM User u WHERE u.login = :fLogin "
+                        + "AND u.password = :fPassword", User.class,
+                Map.of("fLogin", login, "fPassword", password)
+        ).stream().findFirst();
     }
 }

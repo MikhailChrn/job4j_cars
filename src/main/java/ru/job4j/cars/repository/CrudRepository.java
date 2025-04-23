@@ -1,10 +1,12 @@
 package ru.job4j.cars.repository;
 
+import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
@@ -12,6 +14,7 @@ import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+@Component
 @AllArgsConstructor
 public class CrudRepository {
     private final SessionFactory sf;

@@ -15,14 +15,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public class SimpleFileService implements FileService {
+public class RegularFileService implements FileService {
 
     private final RegularRepository<File> fileRepository;
 
     private final String storageDirectory;
 
-    public SimpleFileService(RegularRepository<File> fileRepository,
-                             @Value("${file.directory}") String storageDirectory) {
+    public RegularFileService(RegularRepository<File> fileRepository,
+                              @Value("${file.directory}") String storageDirectory) {
         this.fileRepository = fileRepository;
         this.storageDirectory = storageDirectory;
         createStorageDirectory(storageDirectory);

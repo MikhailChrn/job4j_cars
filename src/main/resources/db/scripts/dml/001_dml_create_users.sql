@@ -1,5 +1,5 @@
-INSERT INTO users (id, name, login, password)
+INSERT INTO users (name, login, password)
 VALUES
-(0, 'admin', 'admin', 'admin'),
-(1, 'Ivan Ivanovich Ivanov', 'ivan', 'ivan'),
-(2, 'Sergey Sergeevich Sergeyev', 'sergey', 'sergey');
+('admin', 'admin', 'admin'),
+('Ivan Ivanovich Ivanov', 'ivan', 'ivan'),
+('Sergey Sergeevich Sergeyev', 'sergey', 'sergey');

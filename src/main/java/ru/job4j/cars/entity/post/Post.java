@@ -58,7 +58,7 @@ public class Post {
         this.priceHistories.add(priceHistory);
     }
 
-    public void removeCarOwnerHistory(PriceHistory priceHistory) {
+    public void removePriceHistory(PriceHistory priceHistory) {
         priceHistory.setPost(null);
         this.priceHistories.remove(priceHistory);
     }
@@ -90,5 +90,6 @@ public class Post {
         this.title = title;
         this.user = user;
         this.car = car;
+        this.isSold = false;
     }
 }

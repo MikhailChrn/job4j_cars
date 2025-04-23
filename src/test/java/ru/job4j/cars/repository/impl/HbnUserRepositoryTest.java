@@ -8,6 +8,7 @@ import ru.job4j.cars.configuration.HibernateConfiguration;
 import ru.job4j.cars.entity.User;
 import ru.job4j.cars.repository.CrudRepository;
 import ru.job4j.cars.repository.RegularRepository;
+import ru.job4j.cars.repository.UserRepository;
 
 import java.util.Collection;
 import java.util.List;
@@ -17,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class HbnUserRepositoryTest {
 
-    private static RegularRepository<User> userRepository;
+    private static UserRepository userRepository;
 
     @BeforeAll
     public static void initRepositories() {

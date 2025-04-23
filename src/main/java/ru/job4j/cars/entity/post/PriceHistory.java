@@ -33,4 +33,8 @@ public class PriceHistory {
     @JoinColumn(name = "post_id")
     private Post post;
 
+    public PriceHistory(long before, long after) {
+        this.before = before;
+        this.after = after;
+    }
 }

@@ -4,15 +4,16 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.entity.post.PriceHistory;
 import ru.job4j.cars.repository.CrudRepository;
-import ru.job4j.cars.repository.RegularRepository;
+import ru.job4j.cars.repository.PriceHistoryRepository;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
-public class HbnPriceHistoryRepository implements RegularRepository<PriceHistory> {
+public class HbnPriceHistoryRepository implements PriceHistoryRepository {
 
     private final CrudRepository crudRepository;
 
@@ -53,6 +54,17 @@ public class HbnPriceHistoryRepository implements RegularRepository<PriceHistory
         return crudRepository.optional(
                 "FROM PriceHistory ph WHERE ph.id = :fId", PriceHistory.class,
                 Map.of("fId", id)
+        );
+    }
+
+    @Override
+    public Collection<PriceHistory> findAllByPostId(int postId) {
+        return crudRepository.query("""
+                        FROM PriceHistory ph
+                        WHERE ph.post.id = :fId
+                        """,
+                PriceHistory.class,
+                Map.of("fId", postId)
         );
     }
 }

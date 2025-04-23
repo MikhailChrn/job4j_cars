@@ -6,10 +6,14 @@ import java.util.Collection;
 
 public interface PostRepository extends RegularRepository<Post> {
 
+    Collection<Post> findAllByUserId(int userId);
+
     Collection<Post> findByCarBrand(int carBrandId);
 
     Collection<Post> findWithPhoto();
 
-    Collection<Post> findByLastDay();
+    Collection<Post> findByLastWeek();
+
+    boolean updateStatusById(int id, boolean isSold);
 
 }

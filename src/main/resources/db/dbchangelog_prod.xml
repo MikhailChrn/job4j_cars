@@ -12,10 +12,10 @@
     <include file="scripts/003_ddl_create_carsownershistory_tables.sql" relativeToChangelogFile="true"/>
     <include file="scripts/004_ddl_create_posts_table.sql" relativeToChangelogFile="true"/>
 
-    <include file="scripts/dml/000_dml_create_files.sql" relativeToChangelogFile="true"/>
+    <!--<include file="scripts/dml/000_dml_create_files.sql" relativeToChangelogFile="true"/>-->
     <include file="scripts/dml/001_dml_create_users.sql" relativeToChangelogFile="true"/>
     <include file="scripts/dml/002_dml_insert_car_components.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/dml/003_dml_insert_carownerhistory.sql" relativeToChangelogFile="true"/>
-    <include file="scripts/dml/004_dml_insert_posts.sql" relativeToChangelogFile="true"/>
+    <!--<include file="scripts/dml/003_dml_insert_carownerhistory.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/dml/004_dml_insert_posts.sql" relativeToChangelogFile="true"/>-->
 
 </databaseChangeLog>

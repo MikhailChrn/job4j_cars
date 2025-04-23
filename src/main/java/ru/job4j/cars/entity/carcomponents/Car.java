@@ -27,7 +27,7 @@ public class Car {
     /**
      * Ссылка на марку автомобиля
      */
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "car_brand_id")
     private CarBrand carBrand;
 
@@ -66,6 +66,13 @@ public class Car {
     public Car(String title, CarBrand carBrand) {
         this.title = title;
         this.carBrand = carBrand;
+    }
+
+    public Car(String title, CarBrand carBrand, BodyType bodyType, Engine engine) {
+        this.title = title;
+        this.carBrand = carBrand;
+        this.bodyType = bodyType;
+        this.engine = engine;
     }
 
     /**

@@ -7,8 +7,8 @@ import lombok.*;
 @Table(name = "owners")
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(of = {"id"})
 public class Owner {
 
@@ -18,4 +18,7 @@ public class Owner {
 
     private String name;
 
+    public Owner(String name) {
+        this.name = name;
+    }
 }

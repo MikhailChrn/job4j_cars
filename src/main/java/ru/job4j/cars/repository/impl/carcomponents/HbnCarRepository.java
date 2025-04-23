@@ -47,6 +47,7 @@ public class HbnCarRepository implements RegularRepository<Car> {
     public Collection<Car> findAll() {
         return crudRepository.query("""
                         FROM Car c
+                        LEFT JOIN FETCH c.carBrand
                         """,
                 Car.class);
     }

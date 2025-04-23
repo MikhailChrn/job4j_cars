@@ -49,7 +49,7 @@ public class HbnPostRepository implements PostRepository {
         return crudRepository.query("""
                         FROM Post p
                         LEFT JOIN FETCH p.car
-                        LEFT JOIN FETCH p.files
+                        LEFT JOIN FETCH p.priceHistories
                         """,
                 Post.class);
     }
@@ -71,6 +71,19 @@ public class HbnPostRepository implements PostRepository {
                         """,
                 Post.class,
                 Map.of("fId", postId)
+        );
+    }
+
+    @Override
+    public Collection<Post> findAllByUserId(int userId) {
+        return crudRepository.query("""
+                        FROM Post p
+                        LEFT JOIN FETCH p.car
+                        LEFT JOIN FETCH p.priceHistories
+                        WHERE p.user.id = :fId
+                        """,
+                Post.class,
+                Map.of("fId", userId)
         );
     }
 
@@ -106,7 +119,7 @@ public class HbnPostRepository implements PostRepository {
     }
 
     @Override
-    public Collection<Post> findByLastDay() {
+    public Collection<Post> findByLastWeek() {
         LocalDateTime today = LocalDateTime.now();
         return crudRepository.query("""
                         FROM Post p
@@ -115,6 +128,23 @@ public class HbnPostRepository implements PostRepository {
                         WHERE p.created > :fDate
                         """,
                 Post.class,
-                Map.of("fDate", today.minusDays(1)));
+                Map.of("fDate", today.minusWeeks(1)));
+    }
+
+    @Override
+    public boolean updateStatusById(int id, boolean isSold) {
+
+        int count = crudRepository.tx(session ->
+                session.createQuery("""
+                                UPDATE Post p
+                                SET p.isSold = :fsold
+                                WHERE p.id = :fId
+                                """)
+                        .setParameter("fsold", isSold)
+                        .setParameter("fId", id)
+                        .executeUpdate()
+        );
+
+        return count > 0;
     }
 }
