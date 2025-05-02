@@ -17,7 +17,7 @@
     <title>Просмотр задания</title>
 </head>
 <body>
-<header th:insert="blocks/header :: header"></header>
+<header th:insert="~{blocks/header :: header}"></header>
 
 <div class="row"><p class="margin-bottom-20"/></div>
 
@@ -151,6 +151,6 @@
         </div>
     </div>
 </div>
-<footer th:insert="blocks/footer :: footer"></footer>
+<footer th:insert="~{blocks/footer :: footer}"></footer>
 </body>
 </html>

@@ -1,6 +1,8 @@
 package ru.job4j.cars.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.job4j.cars.comparator.PostShortViewDtoDescByCreate;
 import ru.job4j.cars.dto.PostCreateDto;
@@ -31,6 +33,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 @AllArgsConstructor
 public class RegularPostService implements PostService {
 
@@ -107,6 +110,8 @@ public class RegularPostService implements PostService {
      */
     @Override
     public Optional<PostFullViewDto> getPostById(int id) {
+        log.warn("TRY TO FIND POST");
+
         Optional<Post> optionalPost = postRepository.findById(id);
         if (optionalPost.isEmpty()) {
             return Optional.empty();
@@ -122,7 +127,9 @@ public class RegularPostService implements PostService {
      * собственника автомобиля и стартовую цену
      */
     @Override
+    @Transactional
     public boolean add(PostCreateDto dto) {
+        log.warn("Begin ADD post method");
         LocalDateTime now = LocalDateTime.now(ZoneId.of("UTC"));
 
         Car car = carRepository.save(new Car(dto.getTitle(),
@@ -152,6 +159,8 @@ public class RegularPostService implements PostService {
                         .after(dto.getCost()).build()).get();
 
         post.addPriceHistory(priceHistory);
+
+        log.warn("End ADD post method. Add " + post.getTitle());
 
         return postRepository.update(post);
     }

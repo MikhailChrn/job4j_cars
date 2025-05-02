@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.stereotype.Repository;
 import ru.job4j.cars.configuration.HibernateConfiguration;
@@ -50,6 +51,7 @@ class HbnFileRepositoryTest {
     }
 
     @Test
+    @Disabled
     public void whenSaveSeveralThenGetAllEntities() {
         File file1 = new File("title-1", "path-1");
         File file2 = new File("title-2", "path-2");

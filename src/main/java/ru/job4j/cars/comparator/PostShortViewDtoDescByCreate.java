@@ -15,7 +15,7 @@ public class PostShortViewDtoDescByCreate implements Comparator<PostShortViewDto
 
     @Override
     public int compare(PostShortViewDto left, PostShortViewDto right) {
-        return right.getCreate().toString().compareTo(left.getCreate().toString());
+        return right.getCreate().compareTo(left.getCreate());
     }
 
 }
