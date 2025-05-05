@@ -127,9 +127,7 @@ public class RegularPostService implements PostService {
      * собственника автомобиля и стартовую цену
      */
     @Override
-    @Transactional
     public boolean add(PostCreateDto dto) {
-        log.warn("Begin ADD post method");
         LocalDateTime now = LocalDateTime.now(ZoneId.of("UTC"));
 
         Car car = carRepository.save(new Car(dto.getTitle(),
@@ -160,7 +158,7 @@ public class RegularPostService implements PostService {
 
         post.addPriceHistory(priceHistory);
 
-        log.warn("End ADD post method. Add " + post.getTitle());
+        log.info("Post addition completed. Post title: " + post.getTitle());
 
         return postRepository.update(post);
     }
